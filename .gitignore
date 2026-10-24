@@ -426,3 +426,20 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+
+
+## Vite / React build outputs
+dist/
+client/dist/
+*.local
+.env.local
+.env.*.local
+**/node_modules/
+**/dist/
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+.env.local
