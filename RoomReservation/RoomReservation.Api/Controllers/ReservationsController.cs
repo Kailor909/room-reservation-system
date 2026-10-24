@@ -30,6 +30,45 @@ namespace RoomReservation.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Reservation>> CreateReservation(CreateReservationDto dto)
         {
+            // 1. Patikriname, ar laikai logiški
+            if (dto.EndDate <= dto.StartDate)
+            {
+                return BadRequest("Rezervacijos pabaigos laikas turi būti vėlesnis už pradžios laiką.");
+            }
+
+            // 2. Patikriname, ar kambarys egzistuoja
+            var room = await _context.Rooms.FindAsync(dto.RoomId);
+            if (room == null)
+            {
+                return NotFound($"Kambarys su ID {dto.RoomId} neegzistuoja.");
+            }
+
+            // 3. Patikriname kambario talpą
+            if (dto.AttendeesCount > room.Capacity)
+            {
+                return BadRequest($"Dalyvių skaičius ({dto.AttendeesCount}) viršija kambario talpą ({room.Capacity}).");
+            }
+
+            // 4. Patikriname, ar vartotojas egzistuoja
+            var userExists = await _context.Users.AnyAsync(u => u.Id == dto.UserId);
+            if (!userExists)
+            {
+                return NotFound($"Vartotojas su ID {dto.UserId} neegzistuoja.");
+            }
+
+            // 5. Patikriname persidengiančias rezervacijas (Overlap check)
+            var hasConflict = await _context.Reservations.AnyAsync(r =>
+                r.RoomId == dto.RoomId &&
+                r.Status != ReservationStatus.Cancelled &&
+                dto.StartDate < r.EndDate &&
+                dto.EndDate > r.StartDate);
+
+            if (hasConflict)
+            {
+                return BadRequest("Šiuo laiku kambarys jau yra rezervuotas.");
+            }
+
+            // Jei visos patikros praeitos – sukuriame rezervaciją
             var reservation = new Reservation
             {
                 RoomId = dto.RoomId,
