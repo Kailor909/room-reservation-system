@@ -13,8 +13,8 @@
         public int RoomId { get; set; }
         public Room? Room { get; set; }
 
-        public int OrganiserId { get; set; }
-        public User? Organiser { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
         public string Title { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
