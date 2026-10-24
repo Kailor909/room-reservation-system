@@ -21,5 +21,13 @@ namespace RoomReservation.Api.Controllers
             var rooms = await _context.Rooms.ToListAsync();
             return Ok(rooms);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Room>> GetRoom(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null) return NotFound();
+            return Ok(room);
+        }
     }
 }
