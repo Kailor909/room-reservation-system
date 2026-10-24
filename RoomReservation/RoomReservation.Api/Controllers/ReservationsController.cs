@@ -86,5 +86,25 @@ namespace RoomReservation.Api.Controllers
             return Ok(reservation);
         }
 
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> CancelReservation(int id)
+        {
+            var reservation = await _context.Reservations.FindAsync(id);
+            if (reservation == null)
+            {
+                return NotFound($"Rezervacija su ID {id} nerasta.");
+            }
+
+            if (reservation.Status == ReservationStatus.Cancelled)
+            {
+                return BadRequest("Ši rezervacija jau yra atšaukta.");
+            }
+
+            reservation.Status = ReservationStatus.Cancelled;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Rezervacija sėkmingai atšaukta.", reservation });
+        }
+
     }
 }
