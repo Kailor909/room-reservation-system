@@ -20,9 +20,9 @@ namespace RoomReservation.Api.Data
                 new User() { Id = 2, FirstName = "Petras", LastName = "Petraitis" }
                 );
             modelBuilder.Entity<Room>().HasData(
-                new Room() { Id = 1, Name = "Didelis kambarys", Capacity = 10, Floor = 3, Equipment = new List<string> { "Projector", "Whiteboard" }, IsActive = true },
-                new Room() { Id = 2, Name = "Mazas kamabarys", Capacity = 4, Floor = 5, Equipment = new List<string> { "TV screen" }, IsActive = true },
-                new Room() { Id = 3, Name = "Konferenciju sale", Capacity = 50, Floor = 1, Equipment = new List<string> { "Projector", "Large table", "Water fountain" }, IsActive = false }
+                new Room() { Id = 1, Name = "Didelis kambarys", Capacity = 10, Floor = 3, Equipment = new List<string> { "Projektorius", "Lenta rašymui" }, IsActive = true },
+                new Room() { Id = 2, Name = "Mažas kambarys", Capacity = 4, Floor = 5, Equipment = new List<string> { "Televizorius" }, IsActive = true },
+                new Room() { Id = 3, Name = "Konferencijų salė", Capacity = 50, Floor = 1, Equipment = new List<string> { "Projektorius", "Ilgas stalas", "Vandens fontanas" }, IsActive = false }
                 );
         }
         
